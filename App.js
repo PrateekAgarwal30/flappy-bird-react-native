@@ -15,6 +15,7 @@ import Wall from "./Wall";
 import Floor from "./Floor";
 import Physics from "./Physics";
 import images from "./images";
+import * as Font from "expo-font";
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -22,7 +23,17 @@ export default class App extends React.Component {
     this.entities = this.setUpWorld();
     this.state = {
       running: true,
+      ready: false,
     };
+  }
+  async componentDidMount() {
+    await Font.loadAsync({
+      flappyBirdFont: require("./assets/font/flappyBird.ttf"),
+    });
+    this.setState((prevState) => ({
+      ...prevState,
+      ready: true,
+    }));
   }
   heightGenerator = (min, max) => {
     return Math.random() * (max - min + 1) + min;
@@ -154,6 +165,9 @@ export default class App extends React.Component {
     }));
   };
   render() {
+    if (!this.state.ready) {
+      return <View style={styles.container} />;
+    }
     return (
       <View style={styles.container}>
         <Image
@@ -178,7 +192,10 @@ export default class App extends React.Component {
             onPress={this.resetGame}
           >
             <View style={styles.fullScreen}>
-              <Text style={styles.gameOverText}>GameOver</Text>
+              <Text style={styles.gameOverText}>Game Over</Text>
+              <Text style={[styles.gameOverText, { fontSize: 24 }]}>
+                Try Again
+              </Text>
             </View>
           </TouchableOpacity>
         )}
@@ -222,6 +239,7 @@ const styles = StyleSheet.create({
   gameOverText: {
     color: "white",
     fontSize: 40,
+    fontFamily: "flappyBirdFont",
   },
   backgroundImage: {
     position: "absolute",
