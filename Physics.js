@@ -20,6 +20,16 @@ const Physics = (entities, { touches, time }) => {
       Matter.Body.translate(entities[`pipe${i}`].body, { x: -1, y: 0 });
     }
   }
+  for (var i = 1; i < 3; i++) {
+    if (entities[`floor${i}`].body.position.x + constants.maxWidth / 2 < 0) {
+      Matter.Body.setPosition(entities[`floor${i}`].body, {
+        x: (constants.maxWidth * 3) / 2 - 28,
+        y: entities[`floor${i}`].body.position.y,
+      });
+    } else {
+      Matter.Body.translate(entities[`floor${i}`].body, { x: -2, y: 0 });
+    }
+  }
   let engine = entities.physics.engine;
   Matter.Engine.update(engine, time.delta);
   return entities;

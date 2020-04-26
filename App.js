@@ -47,8 +47,15 @@ export default class App extends React.Component {
       constants.birdWidth,
       constants.birdHeight
     );
-    let floor = Matter.Bodies.rectangle(
+    let floor1 = Matter.Bodies.rectangle(
       constants.maxWidth / 2,
+      constants.maxHeight - constants.floorHeight / 2,
+      constants.maxWidth,
+      constants.floorHeight,
+      { isStatic: true }
+    );
+    let floor2 = Matter.Bodies.rectangle(
+      (constants.maxWidth * 3) / 2,
       constants.maxHeight - constants.floorHeight / 2,
       constants.maxWidth,
       constants.floorHeight,
@@ -105,7 +112,7 @@ export default class App extends React.Component {
       { isStatic: true }
     );
 
-    Matter.World.add(world, [bird, floor, pipe1, pipe2, pipe3, pipe4]);
+    Matter.World.add(world, [bird, floor1, floor2, pipe1, pipe2, pipe3, pipe4]);
     Matter.Events.on(engine, "collisionStart", (event) => {
       // console.log("Collision Detect4ed");
       this.gameEngine.dispatch({ type: "game-over" });
@@ -117,8 +124,14 @@ export default class App extends React.Component {
         size: [constants.birdWidth, constants.birdHeight],
         renderer: Bird,
       },
-      floor: {
-        body: floor,
+      floor1: {
+        body: floor1,
+        size: [constants.maxWidth, constants.floorHeight],
+        color: "green",
+        renderer: Floor,
+      },
+      floor2: {
+        body: floor2,
         size: [constants.maxWidth, constants.floorHeight],
         color: "green",
         renderer: Floor,
