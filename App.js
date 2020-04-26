@@ -5,13 +5,16 @@ import {
   StatusBar,
   TouchableOpacity,
   Text,
+  Image,
 } from "react-native";
 import { GameEngine } from "react-native-game-engine";
 import Matter from "matter-js";
 import constants from "./constants";
 import Bird from "./Bird";
 import Wall from "./Wall";
+import Floor from "./Floor";
 import Physics from "./Physics";
+import images from "./images";
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -30,25 +33,29 @@ export default class App extends React.Component {
     let bird = Matter.Bodies.rectangle(
       constants.maxWidth / 4,
       constants.maxHeight / 2,
-      constants.birdSize,
-      constants.birdSize
+      constants.birdWidth,
+      constants.birdHeight
     );
     let floor = Matter.Bodies.rectangle(
       constants.maxWidth / 2,
-      constants.maxHeight - constants.pipeHeight / 2,
+      constants.maxHeight - constants.floorHeight / 2,
       constants.maxWidth,
-      constants.pipeHeight,
+      constants.floorHeight,
       { isStatic: true }
     );
-    let ceiling = Matter.Bodies.rectangle(
-      constants.maxWidth / 2,
-      constants.pipeHeight / 2,
-      constants.maxWidth,
-      constants.pipeHeight,
-      { isStatic: true }
-    );
+    // let ceiling = Matter.Bodies.rectangle(
+    //   constants.maxWidth / 2,
+    //   constants.pipeHeight / 2,
+    //   constants.maxWidth,
+    //   constants.pipeHeight,
+    //   { isStatic: true }
+    // );
     const pipe1Height = this.heightGenerator(100, constants.maxHeight / 2);
-    const pipe2Height = constants.maxHeight - constants.pipeGap - pipe1Height;
+    const pipe2Height =
+      constants.maxHeight -
+      constants.pipeGap -
+      pipe1Height -
+      constants.floorHeight;
 
     let pipe1 = Matter.Bodies.rectangle(
       constants.maxWidth,
@@ -59,14 +66,18 @@ export default class App extends React.Component {
     );
     let pipe2 = Matter.Bodies.rectangle(
       constants.maxWidth,
-      constants.maxHeight - pipe2Height / 2,
+      constants.maxHeight - pipe2Height / 2 - constants.floorHeight,
       constants.pipeWidth,
       pipe2Height,
       { isStatic: true }
     );
 
     const pipe3Height = this.heightGenerator(100, constants.maxHeight / 2);
-    const pipe4Height = constants.maxHeight - constants.pipeGap - pipe3Height;
+    const pipe4Height =
+      constants.maxHeight -
+      constants.pipeGap -
+      pipe3Height -
+      constants.floorHeight;
 
     let pipe3 = Matter.Bodies.rectangle(
       2 * constants.maxWidth,
@@ -77,13 +88,13 @@ export default class App extends React.Component {
     );
     let pipe4 = Matter.Bodies.rectangle(
       2 * constants.maxWidth,
-      constants.maxHeight - pipe4Height / 2,
+      constants.maxHeight - pipe4Height / 2 - constants.floorHeight,
       constants.pipeWidth,
       pipe4Height,
       { isStatic: true }
     );
 
-    Matter.World.add(world, [bird, floor, ceiling, pipe1, pipe2, pipe3, pipe4]);
+    Matter.World.add(world, [bird, floor, pipe1, pipe2, pipe3, pipe4]);
     Matter.Events.on(engine, "collisionStart", (event) => {
       // console.log("Collision Detect4ed");
       this.gameEngine.dispatch({ type: "game-over" });
@@ -92,21 +103,14 @@ export default class App extends React.Component {
       physics: { engine: engine, world: world },
       bird: {
         body: bird,
-        size: [constants.birdSize, constants.birdSize],
-        color: "red",
+        size: [constants.birdWidth, constants.birdHeight],
         renderer: Bird,
       },
       floor: {
         body: floor,
-        size: [constants.maxWidth, constants.pipeHeight],
+        size: [constants.maxWidth, constants.floorHeight],
         color: "green",
-        renderer: Wall,
-      },
-      ceiling: {
-        body: ceiling,
-        size: [constants.maxWidth, constants.pipeHeight],
-        color: "green",
-        renderer: Wall,
+        renderer: Floor,
       },
       pipe1: {
         body: pipe1,
@@ -152,6 +156,10 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <Image
+          source={images["background-day"]}
+          style={styles.backgroundImage}
+        />
         <GameEngine
           ref={(ref) => {
             this.gameEngine = ref;
@@ -214,5 +222,14 @@ const styles = StyleSheet.create({
   gameOverText: {
     color: "white",
     fontSize: 40,
+  },
+  backgroundImage: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
+    height: constants.maxHeight,
+    width: constants.maxWidth,
   },
 });
