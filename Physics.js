@@ -11,9 +11,9 @@ const Physics = (entities, { touches, time }) => {
     Matter.Body.setVelocity(bird, { x: 0, y: -9.8 });
   }
   for (var i = 1; i < 5; i++) {
-    if (entities[`pipe${i}`].body.position.x + constants.pipeWidth / 2 < 0) {
+    if (entities[`pipe${i}`].body.position.x + constants.pipeCoreWidth / 2 < 0) {
       Matter.Body.setPosition(entities[`pipe${i}`].body, {
-        x: constants.maxWidth * 2 - constants.pipeWidth / 2,
+        x: constants.maxWidth * 2 - constants.pipeCoreWidth / 2,
         y: entities[`pipe${i}`].body.position.y,
       });
     } else {

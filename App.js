@@ -63,9 +63,9 @@ export default class App extends React.Component {
     );
     // let ceiling = Matter.Bodies.rectangle(
     //   constants.maxWidth / 2,
-    //   constants.pipeHeight / 2,
+    //   constants.pipeCoreHeight / 2,
     //   constants.maxWidth,
-    //   constants.pipeHeight,
+    //   constants.pipeCoreHeight,
     //   { isStatic: true }
     // );
     const pipe1Height = this.heightGenerator(100, constants.maxHeight / 2);
@@ -78,14 +78,14 @@ export default class App extends React.Component {
     let pipe1 = Matter.Bodies.rectangle(
       constants.maxWidth,
       pipe1Height / 2,
-      constants.pipeWidth,
+      constants.pipeCoreWidth,
       pipe1Height,
       { isStatic: true }
     );
     let pipe2 = Matter.Bodies.rectangle(
       constants.maxWidth,
       constants.maxHeight - pipe2Height / 2 - constants.floorHeight,
-      constants.pipeWidth,
+      constants.pipeCoreWidth,
       pipe2Height,
       { isStatic: true }
     );
@@ -100,14 +100,14 @@ export default class App extends React.Component {
     let pipe3 = Matter.Bodies.rectangle(
       2 * constants.maxWidth,
       pipe3Height / 2,
-      constants.pipeWidth,
+      constants.pipeCoreWidth,
       pipe3Height,
       { isStatic: true }
     );
     let pipe4 = Matter.Bodies.rectangle(
       2 * constants.maxWidth,
       constants.maxHeight - pipe4Height / 2 - constants.floorHeight,
-      constants.pipeWidth,
+      constants.pipeCoreWidth,
       pipe4Height,
       { isStatic: true }
     );
@@ -138,25 +138,29 @@ export default class App extends React.Component {
       },
       pipe1: {
         body: pipe1,
-        size: [constants.pipeWidth, pipe1Height],
+        size: [constants.pipeCoreWidth, pipe1Height],
+        type: "top",
         color: "green",
         renderer: Wall,
       },
       pipe2: {
         body: pipe2,
-        size: [constants.pipeWidth, pipe2Height],
+        type: "bottom",
+        size: [constants.pipeCoreWidth, pipe2Height],
         color: "green",
         renderer: Wall,
       },
       pipe3: {
         body: pipe3,
-        size: [constants.pipeWidth, pipe3Height],
+        type: "top",
+        size: [constants.pipeCoreWidth, pipe3Height],
         color: "green",
         renderer: Wall,
       },
       pipe4: {
         body: pipe4,
-        size: [constants.pipeWidth, pipe4Height],
+        type: "bottom",
+        size: [constants.pipeCoreWidth, pipe4Height],
         color: "green",
         renderer: Wall,
       },

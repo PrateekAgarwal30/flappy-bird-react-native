@@ -5,4 +5,5 @@ export default {
   "background-day": require("./assets/sprites/background-day.png"),
   "background-night": require("./assets/sprites/background-night.png"),
   "pipeTop": require("./assets/sprites/pipeTop.png"),
+  "pipeCore": require("./assets/sprites/pipeCore.png"),
 };
