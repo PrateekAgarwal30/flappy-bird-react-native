@@ -1,9 +1,15 @@
 import Matter from "matter-js";
 import _ from "lodash";
 import constants from "./constants";
+let ticks = 0;
 const Physics = (entities, { touches, time }) => {
   const pressTouches = _.filter(touches, (touch) => touch.type === "press");
   const bird = entities.bird.body;
+  ticks++;
+  if (ticks % 30 === 0) {
+    const pose = (entities.bird.pose + 1) % 4;
+    entities.bird.pose = pose;
+  }
   if (
     pressTouches.length &&
     entities.bird.body.position.y > 1.5 * constants.birdHeight
@@ -11,7 +17,10 @@ const Physics = (entities, { touches, time }) => {
     Matter.Body.setVelocity(bird, { x: 0, y: -9.8 });
   }
   for (var i = 1; i < 5; i++) {
-    if (entities[`pipe${i}`].body.position.x + constants.pipeCoreWidth / 2 < 0) {
+    if (
+      entities[`pipe${i}`].body.position.x + constants.pipeCoreWidth / 2 <
+      0
+    ) {
       Matter.Body.setPosition(entities[`pipe${i}`].body, {
         x: constants.maxWidth * 2 - constants.pipeCoreWidth / 2,
         y: entities[`pipe${i}`].body.position.y,

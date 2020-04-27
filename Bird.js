@@ -3,7 +3,7 @@ import { View, StyleSheet, Image } from "react-native";
 import images from "./images";
 export default class Bird extends React.Component {
   render() {
-    const { body, size } = this.props;
+    const { body, size, pose } = this.props;
     const width = size[0];
     const height = size[1];
     const x = body.position.x - width / 2;
@@ -19,7 +19,7 @@ export default class Bird extends React.Component {
         }}
       >
         <Image
-          source={images["bird-yellow-0"]}
+          source={images[`bird-yellow-${pose}`]}
           style={{
             position: "absolute",
             top: 0,

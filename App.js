@@ -122,6 +122,7 @@ export default class App extends React.Component {
       bird: {
         body: bird,
         size: [constants.birdWidth, constants.birdHeight],
+        pose: 0,
         renderer: Bird,
       },
       floor1: {
