@@ -4,4 +4,5 @@ export default {
   "bird-yellow-2": require("./assets/sprites/yellowbird-upflap.png"),
   "background-day": require("./assets/sprites/background-day.png"),
   "background-night": require("./assets/sprites/background-night.png"),
+  "pipeTop": require("./assets/sprites/pipeTop.png"),
 };
