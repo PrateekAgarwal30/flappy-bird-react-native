@@ -19,7 +19,8 @@ export default class Bird extends React.Component {
         }}
       >
         <Image
-          source={images[`bird-yellow-${pose}`]}
+          // source={images[`bird-yellow-${pose}`]}
+          source={images[`bird-yellow`]}
           style={{
             position: "absolute",
             top: 0,
